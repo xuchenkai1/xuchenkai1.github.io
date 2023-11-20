@@ -40,17 +40,24 @@ document.getElementById('up').addEventListener('click', () => {
   
 
 // 游戏主循环
+let gameRunning = true;
+
 function gameLoop() {
+  if (!gameRunning) {
+    return;
+  }
+
   setTimeout(() => {
     clearCanvas();
     drawFood();
     moveSnake();
     drawSnake();
     checkGameOver();
-    requestAnimationFrame(gameLoop);
+    if (gameRunning) {
+      requestAnimationFrame(gameLoop);
+    }
   }, 1000 / speed);
 }
-
 // 清除画布
 function clearCanvas() {
   ctx.fillStyle = 'white';
@@ -98,19 +105,29 @@ function getRandomInt(min, max) {
 
 // 检查游戏是否结束
 function checkGameOver() {
-  const head = snake[0];
-  for (let i = 1; i < snake.length; i++) {
-    if (head.x === snake[i].x && head.y === snake[i].y) {
-      alert('游戏结束！你的得分是：' + score);
-      document.location.reload();
+    const head = snake[0];
+    for (let i = 1; i < snake.length; i++) {
+      if (head.x === snake[i].x && head.y === snake[i].y) {
+        gameOver();
+        return;
+      }
+    }
+  
+    if (head.x < 0 || head.y < 0 || head.x >= canvas.width || head.y >= canvas.height) {
+      gameOver();
+      return;
     }
   }
-
-  if (head.x < 0 || head.y < 0 || head.x >= canvas.width || head.y >= canvas.height) {
+  
+function gameOver() {
+    gameRunning = false;
     alert('游戏结束！你的得分是：' + score);
+    document.getElementById('restartButton').style.display = 'block';
+    }
+  
+  // 添加事件监听器到重新开始按钮
+document.getElementById('restartButton').addEventListener('click', function() {
     document.location.reload();
-  }
-}
-
+    });
 // 开始游戏
 gameLoop();
