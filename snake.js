@@ -1,153 +1,116 @@
-const canvas = document.createElement('canvas');
+const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
-document.body.appendChild(canvas);
-canvas.width = 400;
-canvas.height = 400;
+const grid = 20; // 将画布划分为20x20的网格
+let speed = 7; // 初始速度
 
-let snake = [{ x: 200, y: 200 }, { x: 190, y: 200 }, { x: 180, y: 200 }];
-let dx = 10;
-let dy = 0;
-let foodX;
-let foodY;
-let score = 0;
+let snake = [{ x: grid * 5, y: grid * 5 }]; // 蛇的初始位置
+let dx = grid; // 水平移动速度
+let dy = 0; // 垂直移动速度
+let food = { x: grid * 10, y: grid * 10 }; // 食物的初始位置
+let score = 0; // 分数
 
-function clearCanvas() {
-    ctx.fillStyle = 'white';
-    ctx.strokeStyle = 'black';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.strokeRect(0, 0, canvas.width, canvas.height);
-}
-
-function drawSnakePart(snakePart) {
-    ctx.fillStyle = 'lightgreen';
-    ctx.strokeStyle = 'darkgreen';
-    ctx.fillRect(snakePart.x, snakePart.y, 10, 10);
-    ctx.strokeRect(snakePart.x, snakePart.y, 10, 10);
-}
-
-function drawSnake() {
-    snake.forEach(drawSnakePart);
-}
-
-function advanceSnake() {
-    const head = { x: snake[0].x + dx, y: snake[0].y + dy };
-    snake.unshift(head);
-
-    const didEatFood = snake[0].x === foodX && snake[0].y === foodY;
-    if (didEatFood) {
-        score += 10;
-        document.getElementById('score').innerHTML = score;
-        createFood();
-    } else {
-        snake.pop();
+// 监听按键事件
+document.getElementById('up').addEventListener('click', () => {
+    if (dy === 0) {
+      dx = 0;
+      dy = -grid;
     }
-}
-
-function changeDirection(event) {
-    const LEFT_KEY = 37;
-    const RIGHT_KEY = 39;
-    const UP_KEY = 38;
-    const DOWN_KEY = 40;
-
-    const keyPressed = event.keyCode;
-    const goingUp = dy === -10;
-    const goingDown = dy === 10;
-    const goingRight = dx === 10;  
-    const goingLeft = dx === -10;
-
-    if (keyPressed === LEFT_KEY && !goingRight) {    
-        dx = -10;
-        dy = 0;  
+  });
+  
+  document.getElementById('down').addEventListener('click', () => {
+    if (dy === 0) {
+      dx = 0;
+      dy = grid;
     }
-
-    if (keyPressed === UP_KEY && !goingDown) {    
-        dx = 0;
-        dy = -10;
+  });
+  
+  document.getElementById('left').addEventListener('click', () => {
+    if (dx === 0) {
+      dx = -grid;
+      dy = 0;
     }
-
-    if (keyPressed === RIGHT_KEY && !goingLeft) {
-        dx = 10;
-        dy = 0;
+  });
+  
+  document.getElementById('right').addEventListener('click', () => {
+    if (dx === 0) {
+      dx = grid;
+      dy = 0;
     }
+  });
+  
 
-    if (keyPressed === DOWN_KEY && !goingUp) {
-        dx = 0;
-        dy = 10;
-    }
-}
-
-function randomTen(min, max) {
-    return Math.round((Math.random() * (max-min) + min) / 10) * 10;
-}
-
-function createFood() {
-    foodX = randomTen(0, canvas.width - 10);
-    foodY = randomTen(0, canvas.height - 10);
-
-    snake.forEach(function isFoodOnSnake(part) {
-        const foodIsOnSnake = part.x === foodX && part.y === foodY;
-        if (foodIsOnSnake)
-            createFood();
-    });
-}
-
-function drawFood() {
-    ctx.fillStyle = 'red';
-    ctx.strokeStyle = 'darkred';
-    ctx.fillRect(foodX, foodY, 10, 10);
-    ctx.strokeRect(foodX, foodY, 10, 10);
-}
-
-function checkCollision() {
-    for (let i = 4; i < snake.length; i++) {
-        if (snake[i].x === snake[0].x && snake[i].y === snake[0].y) return true;
-    }
-    const hitLeftWall = snake[0].x < 0;
-    const hitRightWall = snake[0].x > canvas.width - 10;
-    const hitTopWall = snake[0].y < 0;
-    const hitBottomWall = snake[0].y > canvas.height - 10;
-
-    return hitLeftWall || hitRightWall || hitTopWall || hitBottomWall;
-}
-
-function gameOver() {
-    ctx.fillStyle = "red";
-    ctx.font = "30px Arial";
-    ctx.fillText("游戏结束", canvas.width / 4, canvas.height / 2);
-    clearInterval(gameInterval);
-    document.getElementById('restartButton').style.display = 'block'; // 显示重新开始按钮
-}
-
-function restartGame() {
-    snake = [{ x: 200, y: 200 }, { x: 190, y: 200 }, { x: 180, y: 200 }];
-    dx = 10;
-    dy = 0;
-    score = 0;
-    document.getElementById('score').innerHTML = score;
-    document.getElementById('restartButton').style.display = 'none'; // 隐藏重新开始按钮
+// 游戏主循环
+function gameLoop() {
+  setTimeout(() => {
     clearCanvas();
+    drawFood();
+    moveSnake();
+    drawSnake();
+    checkGameOver();
+    requestAnimationFrame(gameLoop);
+  }, 1000 / speed);
+}
+
+// 清除画布
+function clearCanvas() {
+  ctx.fillStyle = 'white';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+}
+
+// 绘制蛇
+function drawSnake() {
+  ctx.fillStyle = 'green';
+  snake.forEach(part => ctx.fillRect(part.x, part.y, grid - 1, grid - 1));
+}
+
+// 移动蛇
+function moveSnake() {
+  const head = { x: snake[0].x + dx, y: snake[0].y + dy };
+  snake.unshift(head);
+
+  if (head.x === food.x && head.y === food.y) {
+    score += 10;
     createFood();
-    main();
+    speed += 0.5; // 增加速度
+  } else {
+    snake.pop();
+  }
 }
 
-document.getElementById('restartButton').addEventListener('click', restartGame);
-let gameInterval;
+// 绘制食物
+function drawFood() {
+  ctx.fillStyle = 'red';
+  ctx.fillRect(food.x, food.y, grid - 1, grid - 1);
+}
 
-function main() {
-    if (checkCollision()) {
-        gameOver();
-        return;
+// 生成食物
+function createFood() {
+  food = {
+    x: getRandomInt(0, canvas.width / grid) * grid,
+    y: getRandomInt(0, canvas.height / grid) * grid
+  };
+}
+
+// 获取随机整数
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
+// 检查游戏是否结束
+function checkGameOver() {
+  const head = snake[0];
+  for (let i = 1; i < snake.length; i++) {
+    if (head.x === snake[i].x && head.y === snake[i].y) {
+      alert('游戏结束！你的得分是：' + score);
+      document.location.reload();
     }
+  }
 
-    gameInterval = setTimeout(function onTick() {
-        clearCanvas();
-        drawFood();
-        advanceSnake();
-        drawSnake();
-        main();
-    }, 100);
+  if (head.x < 0 || head.y < 0 || head.x >= canvas.width || head.y >= canvas.height) {
+    alert('游戏结束！你的得分是：' + score);
+    document.location.reload();
+  }
 }
 
-createFood();
-document.addEventListener("keydown", changeDirection);
-main();
+// 开始游戏
+gameLoop();
