@@ -1,23 +1,51 @@
 body {
+    margin: 0;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
     height: 100vh;
-    background-color: #f0f0f0;
-    margin: 0;
-    font-family: Arial, sans-serif;
-}
-
-#game-container {
-    text-align: center;
-}
-
-#gameCanvas {
-    border: 1px solid black;
-    background-color: #fff;
-}
-
-#score-container {
-    margin-top: 15px;
-    font-size: 20px;
-}
+    justify-content: center;
+  }
+  
+  canvas {
+    border: 1px solid black; /* 显示边界 */
+    margin-bottom: 20px; /* 与控制区域的间隔 */
+  }
+  
+  #controls {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-rows: 1fr 2fr 1fr;
+    gap: 5px;
+    width: 200px; /* 控制区域宽度 */
+    height: 200px; /* 控制区域高度 */
+  }
+  
+  button {
+    font-size: 16px; /* 文字大小 */
+    padding: 10px;
+    background-color: #f0f0f0; /* 按钮背景色 */
+    border: 1px solid #ddd; /* 边框 */
+    border-radius: 5px; /* 圆角 */
+  }
+  
+  #up {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+  }
+  
+  #down {
+    grid-column: 2 / 3;
+    grid-row: 3 / 4;
+  }
+  
+  #left {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+  }
+  
+  #right {
+    grid-column: 3 / 4;
+    grid-row: 2 / 3;
+  }
+  
