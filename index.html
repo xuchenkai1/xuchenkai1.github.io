@@ -1,15 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>贪吃蛇游戏</title>
-    <style>
-        canvas {
-            border: 1px solid black;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <canvas id="game" width="400" height="400"></canvas>
+    <div id="game-container">
+        <canvas id="gameCanvas" width="400" height="400"></canvas>
+        <button id="restartButton" style="display:none;">重新开始</button>
+        <div id="score-container">
+            分数: <span id="score">0</span>
+        </div>
+    </div>
     <script src="snake.js"></script>
 </body>
 </html>
