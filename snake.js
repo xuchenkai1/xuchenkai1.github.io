@@ -1,133 +1,109 @@
+// 获取画布元素和绘图上下文
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
-const grid = 20; // 将画布划分为20x20的网格
-let speed = 7; // 初始速度
 
-let snake = [{ x: grid * 5, y: grid * 5 }]; // 蛇的初始位置
-let dx = grid; // 水平移动速度
-let dy = 0; // 垂直移动速度
-let food = { x: grid * 10, y: grid * 10 }; // 食物的初始位置
-let score = 0; // 分数
+// 设置游戏变量
+const cellSize = 10; // 每个格子的大小
+let direction = 'right'; // 蛇的初始移动方向
+let snake = [{ x: 60, y: 60 }, { x: 40, y: 60 }, { x: 20, y: 60 }]; // 蛇的初始位置
+let food = { x: 140, y: 60 }; // 食物的初始位置
+let gameOver = false;
 
-// 监听按键事件
-document.getElementById('up').addEventListener('click', () => {
-    if (dy === 0) {
-      dx = 0;
-      dy = -grid;
+// 控制按钮事件监听
+document.getElementById('up').addEventListener('click', () => setDirection('up'));
+document.getElementById('down').addEventListener('click', () => setDirection('down'));
+document.getElementById('left').addEventListener('click', () => setDirection('left'));
+document.getElementById('right').addEventListener('click', () => setDirection('right'));
+document.getElementById('restartButton').addEventListener('click', restartGame);
+
+// 设置方向函数
+function setDirection(newDirection) {
+    if ((newDirection === 'up' && direction !== 'down') ||
+        (newDirection === 'down' && direction !== 'up') ||
+        (newDirection === 'left' && direction !== 'right') ||
+        (newDirection === 'right' && direction !== 'left')) {
+        direction = newDirection;
     }
-  });
-  
-  document.getElementById('down').addEventListener('click', () => {
-    if (dy === 0) {
-      dx = 0;
-      dy = grid;
+}
+
+// 蛇移动函数
+function moveSnake() {
+    const head = { x: snake[0].x, y: snake[0].y };
+    switch (direction) {
+        case 'right': head.x += cellSize; break;
+        case 'left': head.x -= cellSize; break;
+        case 'up': head.y -= cellSize; break;
+        case 'down': head.y += cellSize; break;
     }
-  });
-  
-  document.getElementById('left').addEventListener('click', () => {
-    if (dx === 0) {
-      dx = -grid;
-      dy = 0;
+    snake.unshift(head);
+
+    if (head.x === food.x && head.y === food.y) {
+        createFood();
+    } else {
+        snake.pop();
     }
-  });
-  
-  document.getElementById('right').addEventListener('click', () => {
-    if (dx === 0) {
-      dx = grid;
-      dy = 0;
+}
+
+// 检查游戏结束函数
+function checkGameOver() {
+    for (let i = 1; i < snake.length; i++) {
+        if (snake[i].x === snake[0].x && snake[i].y === snake[0].y) {
+            gameOver = true;
+        }
     }
-  });
-  
+    if (snake[0].x < 0 || snake[0].x >= canvas.width ||
+        snake[0].y < 0 || snake[0].y >= canvas.height) {
+        gameOver = true;
+    }
+}
+
+// 创建食物函数
+function createFood() {
+    function randomPosition(min, max) {
+        return Math.floor(Math.random() * (max - min) + min) * cellSize;
+    }
+    food = {
+        x: randomPosition(0, canvas.width / cellSize),
+        y: randomPosition(0, canvas.height / cellSize)
+    };
+}
+
+// 绘制函数
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = 'green';
+    for (let part of snake) {
+        ctx.fillRect(part.x, part.y, cellSize, cellSize);
+    }
+    ctx.fillStyle = 'red';
+    ctx.fillRect(food.x, food.y, cellSize, cellSize);
+
+    if (gameOver) {
+        document.getElementById('restartButton').style.display = 'block';
+        return;
+    }
+}
 
 // 游戏主循环
-let gameRunning = true;
-
 function gameLoop() {
-  if (!gameRunning) {
-    return;
-  }
-
-  setTimeout(() => {
-    clearCanvas();
-    drawFood();
     moveSnake();
-    drawSnake();
     checkGameOver();
-    if (gameRunning) {
-      requestAnimationFrame(gameLoop);
+    draw();
+    if (!gameOver) {
+        setTimeout(gameLoop, 150);
     }
-  }, 1000 / speed);
-}
-// 清除画布
-function clearCanvas() {
-  ctx.fillStyle = 'white';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
-// 绘制蛇
-function drawSnake() {
-  ctx.fillStyle = 'green';
-  snake.forEach(part => ctx.fillRect(part.x, part.y, grid - 1, grid - 1));
-}
-
-// 移动蛇
-function moveSnake() {
-  const head = { x: snake[0].x + dx, y: snake[0].y + dy };
-  snake.unshift(head);
-
-  if (head.x === food.x && head.y === food.y) {
-    score += 10;
+// 重新开始游戏函数
+function restartGame() {
+    snake = [{ x: 60, y: 60 }, { x: 40, y: 60 }, { x: 20, y: 60 }];
+    direction = 'right';
+    gameOver = false;
+    document.getElementById('restartButton').style.display = 'none';
     createFood();
-    speed += 0.5; // 增加速度
-  } else {
-    snake.pop();
-  }
+    gameLoop();
 }
 
-// 绘制食物
-function drawFood() {
-  ctx.fillStyle = 'red';
-  ctx.fillRect(food.x, food.y, grid - 1, grid - 1);
-}
-
-// 生成食物
-function createFood() {
-  food = {
-    x: getRandomInt(0, canvas.width / grid) * grid,
-    y: getRandomInt(0, canvas.height / grid) * grid
-  };
-}
-
-// 获取随机整数
-function getRandomInt(min, max) {
-  return Math.floor(Math.random() * (max - min)) + min;
-}
-
-// 检查游戏是否结束
-function checkGameOver() {
-    const head = snake[0];
-    for (let i = 1; i < snake.length; i++) {
-      if (head.x === snake[i].x && head.y === snake[i].y) {
-        gameOver();
-        return;
-      }
-    }
-  
-    if (head.x < 0 || head.y < 0 || head.x >= canvas.width || head.y >= canvas.height) {
-      gameOver();
-      return;
-    }
-  }
-  
-function gameOver() {
-    gameRunning = false;
-    alert('游戏结束！你的得分是：' + score);
-    document.getElementById('restartButton').style.display = 'block';
-    }
-  
-  // 添加事件监听器到重新开始按钮
-document.getElementById('restartButton').addEventListener('click', function() {
-    document.location.reload();
-    });
-// 开始游戏
+// 初始化游戏
+createFood();
 gameLoop();
