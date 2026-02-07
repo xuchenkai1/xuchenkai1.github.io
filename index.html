@@ -3,60 +3,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chenkai Xu - Personal</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Chenkai Xu - Home</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #004098;
+            --primary-hover: #003075;
+            --bg-body: #f8f9fa;
+            --text-main: #1a202c;
+            --text-muted: #4a5568;
+            --radius: 16px;
+            --nav-height: 70px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding-top: 100px;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed; top: 0; left: 0; width: 100%; height: var(--nav-height);
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0,0,0,0.06); z-index: 1000;
+            display: flex; justify-content: center; align-items: center;
+        }
+        .nav-links { display: flex; gap: 8px; background: rgba(0,0,0,0.04); padding: 5px; border-radius: 100px; }
+        .nav-item {
+            text-decoration: none; color: var(--text-muted); font-size: 0.95rem; font-weight: 500;
+            padding: 8px 24px; border-radius: 100px; transition: all 0.2s ease;
+        }
+        .nav-item:hover { color: var(--primary); background: rgba(255,255,255,0.8); }
+        .nav-item.active { background-color: #fff; color: var(--primary); font-weight: 600; box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
+
+        /* Container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto 60px auto;
+            padding: 0 24px;
+        }
+
+        /* Hero Section */
+        .hero { text-align: center; margin-bottom: 60px; }
+
+        .avatar-wrapper {
+            width: 160px; height: 160px; margin: 0 auto 24px;
+            border-radius: 50%; border: 4px solid #fff;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+            overflow: hidden; background-color: #e2e8f0;
+        }
+        .avatar-wrapper img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+        .hero h1 {
+            font-size: 3rem; font-weight: 800; color: #111; margin-bottom: 8px; letter-spacing: -0.03em;
+        }
+        .hero p {
+            font-size: 1.25rem; color: var(--text-muted); margin-bottom: 24px; font-weight: 400;
+        }
+
+        .social-badges { display: flex; justify-content: center; gap: 16px; }
+        .social-badges a { transition: transform 0.2s; }
+        .social-badges a:hover { transform: translateY(-3px); }
+
+        /* About Card */
+        .card {
+            background: #fff; padding: 45px; border-radius: var(--radius);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.03);
+            transition: transform 0.3s ease;
+        }
+        .card:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(0,0,0,0.06); }
+
+        .section-header {
+            font-size: 1.5rem; font-weight: 700; color: #1a202c; margin-bottom: 25px;
+            display: flex; align-items: center;
+        }
+        .section-header::before {
+            content: ''; width: 6px; height: 26px; background: var(--primary);
+            margin-right: 14px; border-radius: 4px;
+        }
+
+        .about-text {
+            font-size: 1.1rem; color: #4a5568; margin-bottom: 30px; line-height: 1.8;
+        }
+
+        .focus-box {
+            background: #f8fafc; border: 1px solid #e2e8f0; padding: 25px; border-radius: 12px;
+        }
+        .focus-title { font-weight: 700; color: var(--primary); margin-bottom: 15px; display: block; font-size: 1.05rem; }
+        
+        .focus-list { list-style: none; }
+        .focus-list li {
+            position: relative; padding-left: 26px; margin-bottom: 10px;
+            color: #4a5568; font-weight: 500; font-size: 1.05rem;
+        }
+        .focus-list li::before {
+            content: "✦"; color: var(--primary); font-weight: bold; font-size: 1.2em;
+            position: absolute; left: 0; top: 1px;
+        }
+
+        footer { text-align: center; margin-top: 80px; color: #a0aec0; font-size: 0.9rem; padding-bottom: 40px; }
+    </style>
 </head>
 <body>
 
     <nav class="navbar">
-        <div class="nav-container">
-            <a href="index.html" class="nav-logo">Chenkai Xu</a>
-            <div class="nav-links">
-                <a href="index.html">Home</a>
-                <a href="research.html">Research</a>
-                <a href="personal.html" class="active">Personal</a>
-            </div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-item active">Home</a>
+            <a href="research.html" class="nav-item">Research</a>
+            <a href="personal.html" class="nav-item">Personal</a>
         </div>
     </nav>
 
-    <div class="main-container">
+    <div class="container">
         
-        <h2>Achievements & Activities</h2>
+        <section class="hero">
+            <div class="avatar-wrapper">
+                <img src="images/avatar.jpg" alt="Chenkai Xu">
+            </div>
+
+            <div style="margin-bottom: 16px;">
+                <img src="https://readme-typing-svg.herokuapp.com?font=Inter&weight=500&size=20&pause=1000&color=4A5568&center=true&vCenter=true&width=500&lines=Hi+there!+I'm+Chenkai+Xu;AI+Researcher+@+SJTU" alt="Typing SVG" />
+            </div>
+
+            <h1>Chenkai Xu</h1>
+            <p>Researcher at Shanghai Jiao Tong University (SJTU)</p>
+
+            <div class="social-badges">
+                <a href="mailto:132435xck@sjtu.edu.cn">
+                    <img src="https://img.shields.io/badge/Email-SJTU-0072c6?style=flat&logo=gmail&logoColor=white" alt="Email" />
+                </a>
+                <a href="https://scholar.google.com/citations?user=UijP7hIAAAAJ&hl=en">
+                    <img src="https://img.shields.io/badge/Google_Scholar-Profile-4285F4?style=flat&logo=google-scholar&logoColor=white" alt="Google Scholar" />
+                </a>
+            </div>
+        </section>
 
         <div class="card">
-            <ul class="achievement-list">
-                
-                <li class="achievement-item">
-                    <div class="icon-box">🥋</div>
-                    <div class="achievement-content">
-                        <h3>Martial Arts</h3>
-                        <p>Specializing in traditional Chinese martial arts disciplines.</p>
-                        <ul class="sub-list">
-                            <li>Inheritor of <strong>Shanghai Lu Style Xin Yi Liu He Quan</strong>.</li>
-                            <li><strong>1st Place</strong>, Xin Yi Liu He Weapons, <em>2025 Shanghai International Wushu Expo</em>.</li>
-                        </ul>
-                    </div>
-                </li>
-
-                <li class="achievement-item">
-                    <div class="icon-box">🎹</div>
-                    <div class="achievement-content">
-                        <h3>Music</h3>
-                        <p>Musician and performer.</p>
-                        <ul class="sub-list">
-                            <li>Keyboardist, <strong>Unicorne Rabbit Band</strong>, Shanghai Jiao Tong University.</li>
-                        </ul>
-                    </div>
-                </li>
-
-            </ul>
+            <div class="section-header">About Me</div>
+            <p class="about-text">
+                I am a researcher at <strong>Shanghai Jiao Tong University (SJTU)</strong>. My research interests lie at the intersection of <strong>Artificial Intelligence</strong>, focusing on building efficient, scalable, and multimodal intelligent systems.
+            </p>
+            
+            <div class="focus-box">
+                <span class="focus-title">Research Focus</span>
+                <ul class="focus-list">
+                    <li>Large Language Models (LLMs) & Diffusion Models</li>
+                    <li>Efficient Inference & Multimodal Generation</li>
+                </ul>
+            </div>
         </div>
 
-    </div>
+        <footer>
+            &copy; 2026 Chenkai Xu.
+        </footer>
 
-    <footer>
-        &copy; 2026 Chenkai Xu. Hosted on GitHub Pages.
-    </footer>
+    </div>
 
 </body>
 </html>

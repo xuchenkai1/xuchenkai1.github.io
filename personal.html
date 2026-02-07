@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chenkai Xu - Personal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #004098;
+            --bg-body: #f8f9fa;
+            --text-main: #1a202c;
+            --text-muted: #4a5568;
+            --radius: 16px;
+            --nav-height: 70px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding-top: 100px;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed; top: 0; left: 0; width: 100%; height: var(--nav-height);
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0,0,0,0.06); z-index: 1000;
+            display: flex; justify-content: center; align-items: center;
+        }
+        .nav-links { display: flex; gap: 8px; background: rgba(0,0,0,0.04); padding: 5px; border-radius: 100px; }
+        .nav-item {
+            text-decoration: none; color: var(--text-muted); font-size: 0.95rem; font-weight: 500;
+            padding: 8px 24px; border-radius: 100px; transition: all 0.2s ease;
+        }
+        .nav-item:hover { color: var(--primary); background: rgba(255,255,255,0.8); }
+        .nav-item.active { background-color: #fff; color: var(--primary); font-weight: 600; box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
+
+        /* Container */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto 60px auto;
+            padding: 0 30px;
+        }
+
+        .page-header {
+            margin-bottom: 50px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 20px;
+        }
+        .page-title {
+            font-size: 2.2rem; font-weight: 800; color: #111;
+        }
+
+        /* Hobby Card - Consistent with Research Page */
+        .hobby-card {
+            background: #fff;
+            border-radius: var(--radius);
+            padding: 30px;
+            margin-bottom: 35px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            border: 1px solid rgba(0,0,0,0.04);
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+            transition: transform 0.2s;
+        }
+        
+        .hobby-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+            border-color: rgba(0,64,152,0.1);
+        }
+
+        /* Image Wrapper - 4:3 Ratio */
+        .hobby-image-wrapper {
+            width: 340px;
+            height: 255px; /* 4:3 Aspect Ratio exactly */
+            flex-shrink: 0;
+            border-radius: 12px;
+            overflow: hidden;
+            background-color: #f0f4f8;
+            box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);
+        }
+
+        .hobby-image-wrapper img {
+            width: 100%; height: 100%;
+            object-fit: cover; /* Cover the area nicely */
+            display: block;
+        }
+
+        .hobby-content { flex: 1; padding-top: 5px; }
+
+        .hobby-header {
+            display: flex; align-items: center; gap: 15px; margin-bottom: 25px;
+        }
+
+        .hobby-icon {
+            font-size: 1.8rem; display: flex; align-items: center; justify-content: center;
+            width: 56px; height: 56px; background: #f0f7ff; border-radius: 12px;
+            color: var(--primary);
+        }
+
+        .hobby-title { font-size: 1.6rem; font-weight: 700; color: #1a202c; }
+
+        .achievements-list {
+            list-style: none;
+            background-color: #f8fafc;
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .achievements-list li {
+            position: relative; padding-left: 28px; margin-bottom: 15px;
+            color: #4a5568; font-size: 1.05rem; line-height: 1.6;
+        }
+
+        .achievements-list li:last-child { margin-bottom: 0; }
+
+        .achievements-list li::before {
+            content: "➜"; position: absolute; left: 0; color: var(--primary);
+            font-size: 1rem; top: 3px; font-weight: bold;
+        }
+
+        @media (max-width: 850px) {
+            .hobby-card { flex-direction: column; }
+            .hobby-image-wrapper { width: 100%; height: 260px; margin-bottom: 25px; }
+        }
+
+        footer { text-align: center; margin-top: 80px; color: #a0aec0; font-size: 0.9rem; padding-bottom: 40px; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-links">
+            <a href="index.html" class="nav-item">Home</a>
+            <a href="research.html" class="nav-item">Research</a>
+            <a href="personal.html" class="nav-item active">Personal</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        
+        <div class="page-header">
+            <h1 class="page-title">Achievements & Activities</h1>
+        </div>
+
+        <div class="hobby-card">
+            <div class="hobby-image-wrapper">
+                <img src="images/martial-arts.jpg" alt="Martial Arts">
+            </div>
+            <div class="hobby-content">
+                <div class="hobby-header">
+                    <span class="hobby-icon">🥋</span>
+                    <h3 class="hobby-title">Martial Arts</h3>
+                </div>
+                <ul class="achievements-list">
+                    <li>Inheritor of <strong>Shanghai Lu Style Xin Yi Liu He Quan</strong>.</li>
+                    <li><strong>1st Place</strong>, Xin Yi Liu He Weapons, <em>2025 Shanghai International Wushu Expo</em>.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="hobby-card">
+            <div class="hobby-image-wrapper">
+                <img src="images/band.jpg" alt="Music Band">
+            </div>
+            <div class="hobby-content">
+                <div class="hobby-header">
+                    <span class="hobby-icon">🎹</span>
+                    <h3 class="hobby-title">Music</h3>
+                </div>
+                <ul class="achievements-list">
+                    <li>Keyboardist, <strong>Unicorn Rabbit Band</strong>, Shanghai Jiao Tong University.</li>
+                </ul>
+            </div>
+        </div>
+
+        <footer>
+            &copy; 2026 Chenkai Xu.
+        </footer>
+    </div>
+
+</body>
+</html>
