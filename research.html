@@ -108,12 +108,21 @@
         .pub-authors strong { color: var(--primary); font-weight: 600; }
 
         .pub-meta {
-            display: flex; align-items: center; gap: 15px; margin-top: 20px;
+            display: flex; align-items: center; gap: 15px; margin-top: 20px; flex-wrap: wrap;
         }
 
         .badge-arxiv {
             font-family: 'Inter', monospace; font-size: 0.9rem;
             background: #f1f5f9; color: #64748b; padding: 6px 12px; border-radius: 6px; font-weight: 600;
+        }
+
+        .badge-venue {
+            font-family: 'Inter', monospace; font-size: 0.9rem;
+            background: #e8f1ff; color: var(--primary); padding: 6px 12px; border-radius: 6px; font-weight: 700;
+        }
+
+        .pub-note {
+            font-size: 0.9rem; color: #718096; margin-top: -8px; margin-bottom: 10px;
         }
 
         .btn-link {
@@ -161,7 +170,8 @@
             </div>
             <div class="pub-content">
                 <span class="pub-title">LoPA: Scaling dLLM Inference via Lookahead Parallel Decoding</span>
-                <div class="pub-authors"><strong>Chenkai Xu</strong>, Y Jin, J Li, Y Tu, G Long, D Tu, M Song, H Si, T Hou, J Yan, Z Deng</div>
+                <div class="pub-authors"><strong>Chenkai Xu*</strong>, Y Jin*, J Li, Y Tu, G Long, D Tu, M Song, H Si, T Hou, J Yan, Z Deng</div>
+                <div class="pub-note">* Equal contribution.</div>
                 <div class="pub-meta">
                     <span class="badge-arxiv">arXiv:2512.16229</span>
                     <a href="https://arxiv.org/abs/2512.16229" class="btn-link" target="_blank">PDF Document ↗</a>
@@ -175,8 +185,10 @@
             </div>
             <div class="pub-content">
                 <span class="pub-title">Diffusion LLMs Can Do Faster-Than-AR Inference via Discrete Diffusion Forcing</span>
-                <div class="pub-authors">X Wang, <strong>Chenkai Xu</strong>, Y Jin, J Jin, H Zhang, Z Deng</div>
+                <div class="pub-authors">X Wang*, <strong>Chenkai Xu*</strong>, Y Jin, J Jin, H Zhang, Z Deng</div>
+                <div class="pub-note">* Equal contribution.</div>
                 <div class="pub-meta">
+                    <span class="badge-venue">ICLR 2026</span>
                     <span class="badge-arxiv">arXiv:2508.09192</span>
                     <a href="https://arxiv.org/abs/2508.09192" class="btn-link" target="_blank">PDF Document ↗</a>
                 </div>
@@ -189,8 +201,10 @@
             </div>
             <div class="pub-content">
                 <span class="pub-title">UniCMs: A Unified Consistency Model For Efficient Multimodal Generation and Understanding</span>
-                <div class="pub-authors"><strong>Chenkai Xu</strong>, X Wang, Z Liao, Y Li, T Hou, Z Deng</div>
+                <div class="pub-authors"><strong>Chenkai Xu*</strong>, X Wang*, Z Liao, Y Li, T Hou, Z Deng</div>
+                <div class="pub-note">* Equal contribution.</div>
                 <div class="pub-meta">
+                    <span class="badge-venue">ACL 2026</span>
                     <span class="badge-arxiv">arXiv:2502.05415</span>
                     <a href="https://arxiv.org/abs/2502.05415" class="btn-link" target="_blank">PDF Document ↗</a>
                 </div>
